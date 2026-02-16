@@ -1,0 +1,56 @@
+# MotionControl.action
+# This action definition file specifies the goal, feedback, and result messages
+# for controlling the AUV's motion primitives
+
+# ==============================================================================
+# GOAL - What the client requests from the server
+# ==============================================================================
+# Action type determines what kind of motion primitive to execute
+uint8 action_type
+
+# Constants for different action types
+uint8 MOVE_TIMED = 0          # Move in a direction for a specified duration
+uint8 ROTATE_TO_HEADING = 1   # Rotate to a target heading (not used in basic mission)
+uint8 CHANGE_DEPTH = 2        # Move to a target depth
+uint8 HOLD_POSITION = 3       # Maintain current depth and orientation
+
+# Parameters for MOVE_TIMED action
+float32 duration              # Duration in seconds (e.g., 3.0 for 3 seconds)
+string direction              # Direction: "forward", "backward", "left", "right", "up", "down"
+float32 speed_percent         # Speed as percentage (0-100), where 50 = moderate speed
+
+# Parameters for CHANGE_DEPTH action  
+float32 target_depth          # Target depth in meters (positive value, e.g., 1.0 for 1m below surface)
+
+# Parameters for ROTATE_TO_HEADING action (for future use)
+float32 target_heading        # Target heading in degrees (0-360)
+
+# Parameters for HOLD_POSITION action
+float32 hold_duration         # How long to hold position in seconds
+
+---
+# ==============================================================================
+# FEEDBACK - Periodic updates sent during action execution (every 0.5 seconds)
+# ==============================================================================
+string status_message         # Human-readable status (e.g., "Moving forward...")
+float32 time_elapsed          # Time elapsed since action started (seconds)
+float32 progress_percent      # Progress percentage (0-100)
+
+# Current vehicle state
+float32 current_depth         # Current depth in meters
+float32 current_heading       # Current heading in degrees (0-360)
+float32 current_pitch         # Current pitch angle in degrees
+float32 current_roll          # Current roll angle in degrees
+float32 battery_voltage       # Current battery voltage
+
+---
+# ==============================================================================
+# RESULT - Final outcome when action completes
+# ==============================================================================
+bool success                  # True if action completed successfully
+string result_message         # Description of the result
+float32 total_time            # Total time taken to complete action (seconds)
+
+# Final vehicle state when action completed
+float32 final_depth           # Final depth in meters
+float32 final_heading         # Final heading in degrees

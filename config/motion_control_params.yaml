@@ -1,0 +1,107 @@
+# motion_control_params.yaml
+# Configuration parameters for the AUV motion control system
+
+# ==============================================================================
+# MAVLink Connection Parameters
+# ==============================================================================
+motion_control:
+  mavlink:
+    # Connection string for pymavlink
+    # Options:
+    #   - Serial: "/dev/ttyACM0" or "/dev/ttyUSB0"
+    #   - UDP (from topside): "udpin:0.0.0.0:14550"
+    #   - UDP (from companion): "udpout:0.0.0.0:9000"
+    #connection_string: "udpin:0.0.0.0:14550"
+    
+    # Baud rate for serial connections (ignored for UDP)
+    connection_string: "/dev/ttyACM0"
+    baud_rate: 115200
+    
+    # Heartbeat send rate in Hz (must be >= 1 Hz to prevent failsafe)
+    heartbeat_rate: 1.0
+    
+  # ==============================================================================
+  # Control Parameters
+  # ==============================================================================
+  control:
+    # Default speed percentage for movements (0-100)
+    default_speed_percent: 50.0
+    
+    # Maximum depth limit in meters (safety limit)
+    max_depth: 10.0
+    
+    # Minimum depth limit in meters (stay below surface)
+    min_depth: 0.3
+    
+    # Main control loop rate in Hz
+    # This determines how often we send RC override commands and check state
+    control_loop_rate: 20
+    
+    # Feedback publishing rate in Hz (for action feedback)
+    # You specified 0.5s per feedback = 2 Hz
+    feedback_rate: 2
+    
+    # Depth hold tolerance in meters
+    # Vehicle is considered "at depth" if within this range
+    depth_tolerance: 0.1
+    
+    # Heading hold tolerance in degrees
+    heading_tolerance: 5.0
+    
+  # ==============================================================================
+  # PWM Configuration for RC Override
+  # ==============================================================================
+  pwm:
+    # Neutral PWM value (no movement)
+    neutral: 1500
+    
+    # Minimum PWM value
+    min: 1100
+    
+    # Maximum PWM value
+    max: 1900
+    
+    # Deadband around neutral (PWM units)
+    # Values within this range of neutral are considered "stopped"
+    deadband: 50
+    
+    # PWM values for different speed percentages
+    # At 50% speed, we use these offsets from neutral
+    speed_50_offset: 200  # neutral ± 200 = 1300 or 1700
+    
+  # ==============================================================================
+  # Safety Parameters
+  # ==============================================================================
+  safety:
+    # Enable depth limit checking
+    enable_depth_limit: true
+    
+    # Enable battery voltage checking
+    enable_battery_check: true
+    
+    # Minimum battery voltage before warning (volts)
+    min_battery_voltage: 14.0
+    
+    # Critical battery voltage - abort mission (volts)
+    critical_battery_voltage: 12.0
+    
+    # Action timeout multiplier
+    # Actual timeout = expected_duration * multiplier
+    # This allows actions to take longer than expected before timing out
+    action_timeout_multiplier: 2.0
+    
+    # Emergency surface if no command received (seconds)
+    command_timeout: 10.0
+    
+  # ==============================================================================
+  # Flight Mode Configuration
+  # ==============================================================================
+  flight_modes:
+    # Preferred mode for timed movements
+    movement_mode: "STABILIZE"
+    
+    # Preferred mode for depth changes and holding
+    depth_mode: "ALT_HOLD"
+    
+    # Mode to use during surfacing
+    surface_mode: "MANUAL"

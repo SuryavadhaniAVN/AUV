@@ -4,7 +4,7 @@ A ROS2-based motion control system for autonomous underwater vehicles (AUVs) usi
 
 ## Overview
 
-This package provides a complete action-based motion control system for your BlueROV2 Heavy configuration AUV. It consists of:
+This package provides an action-based motion control system for Team VAUV's 8-thruster AUV, built on ArduSub and a Pixhawk. It consists of:
 
 - **Action Server**: Low-level controller that communicates with Pixhawk via MAVLink
 - **Action Client**: High-level mission coordinator that sends motion commands
@@ -299,7 +299,7 @@ auv_motion_control/
 
 ### Integration with Vision System
 
-To integrate with your YOLO-based gate detection system:
+To integrate with the team's YOLO-based gate detection system:
 
 1. **Create a vision node** that publishes gate detections:
    ```python
@@ -367,7 +367,7 @@ Add feature-based visual odometry for better position estimation:
 
 ## Contributing
 
-This is a starting point for your AUV motion control system. Feel free to extend and modify based on your needs!
+Contributions and extensions are welcome.
 
 ## License
 
